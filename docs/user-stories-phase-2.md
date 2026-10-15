@@ -289,3 +289,73 @@ A fase 2 só é considerada concluída quando:
 ## Observação final
 
 Esta fase deve ser executada em blocos pequenos, um por um, com validação de aceite antes de seguir para o próximo. Isso reduz retrabalho, melhora qualidade e respeita o objetivo do hackthon: entregar uma refatoração enxuta, robusta e conforme padrões da empresa.
+
+---
+
+## User Story do requisito do issue — Issue-to-Code via GitHub MCP
+
+### User Story Única — Ler a issue no GitHub, interpretar o requisito e executar a implementação adequada
+
+#### Como agente de desenvolvimento / time técnico
+Quero que o projeto consiga conectar-se a um servidor GitHub MCP, consultar as issues do repositório, identificar a issue relevante, interpretar o seu requisito e executar o plano de ação necessário para atender ao que foi solicitado,
+para que a implementação seja guiada pela fonte de verdade do repositório e não por instruções manuais fixas ou por suposições de código.
+
+#### Contexto do problema
+O processo de desenvolvimento precisa ser orientado por issues do GitHub, e não por um prompt estático ou por uma solução pré-definida. Isso exige que o sistema seja capaz de:
+- conectar ao GitHub utilizando MCP
+- listar as issues disponíveis no repositório
+- localizar a issue ativa e relevante para a tarefa
+- ler o título, o corpo, os critérios e o contexto da issue
+- transformar o requisito em plano de ação
+- decidir a melhor implementação para atender ao problema descrito
+- executar a solução no código
+- validar o resultado com evidência e entregar o trabalho em estado pronto para revisão
+
+A solução deve ser agnóstica em relação à tecnologia, ao banco, ao nome exato de entidades e ao layout do código, porque a decisão correta deve surgir da leitura da issue e da análise do projeto atual.
+
+#### Requisitos do processo
+- o sistema deve usar GitHub MCP para acessar o repositório e consultar issues
+- a issue precisa ser lida antes da implementação
+- o agente deve identificar o problema, o objetivo e os critérios de aceite da issue
+- o plano de execução deve ser derivado do conteúdo da issue e do estado atual do projeto
+- a implementação deve seguir a arquitetura existente do projeto, sem impor estruturas inventadas sem necessidade
+- o agente deve realizar a implementação necessária para atender ao requisito observado na issue
+- a validação deve incluir testes, compilação ou verificação de comportamento relevantes para a mudança
+
+#### Critérios de aceitação
+- o projeto consegue se conectar ao GitHub via MCP
+- o agente consegue listar e ler issues do repositório
+- a issue relevante é usada como fonte de verdade
+- o agente interpreta o requisito e decide a implementação adequada
+- o código produzido é coerente com o problema da issue e com o projeto atual
+- o processo não depende de instruções hardcoded sobre tabelas, models, endpoints ou nomes específicos
+- a entrega final é validada com evidência técnica
+
+#### Regras de execução
+- não definir a implementação diretamente no texto da US
+- não prescrever modelos, tabelas, endpoints ou estruturas específicas sem que a issue o exija
+- deixar que o agente analise o código do projeto e o conteúdo da issue antes de decidir a solução
+- priorizar leitura do GitHub e interpretação da issue como ponto de partida
+- manter a implementação alinhada ao contexto do projeto e às convenções existentes
+- qualquer decisão técnica deve ser justificável pela issue e pelo código atual
+
+#### Validação
+- o MCP consegue acessar o repositório e recuperar a issue
+- a issue relevante é identificada corretamente
+- o agente transforma o requisito em plano antes de escrever código
+- a implementação resolva o problema descrito pela issue
+- os testes ou verificações relevantes passam
+- o resultado final é coerente com a arquitetura atual do projeto
+
+#### Definition of Done
+A funcionalidade será considerada concluída quando:
+- o GitHub MCP estiver corretamente configurado e acessando o repositório
+- a issue for lida e interpretada automaticamente
+- o plano de ação for derivado do conteúdo da issue
+- o agente implementar a mudança necessária sem depender de regras fixas pré-definidas
+- o código atender ao requisito da issue e ao contexto do projeto
+- a validação final demonstrar que a solução funciona
+- o resultado estiver pronto para revisão e PR
+
+#### Prompt base para geração do agente
+Conecte-se ao GitHub via MCP, consulte as issues do repositório e identifique a issue relevante para a tarefa atual. Leia a issue completamente e use o seu conteúdo como fonte de verdade para gerar o plano de ação. Analise o projeto antes de implementar e decida a melhor solução para atender ao requisito observado, sem depender de regras fixas, nomes específicos de entidades ou modelos pré-definidos. Execute a implementação necessária, valide o comportamento com testes ou verificações relevantes e entregue a solução pronta para revisão.

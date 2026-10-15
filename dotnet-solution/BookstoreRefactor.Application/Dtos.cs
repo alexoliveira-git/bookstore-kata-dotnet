@@ -8,7 +8,8 @@ public sealed record BookCreateRequest(
     [Required, MinLength(1)] string Author,
     [Required] Guid CategoryId,
     [Range(0, double.MaxValue)] decimal Price,
-    BookStatus Status = BookStatus.Draft);
+    BookStatus Status = BookStatus.Draft,
+    Guid? AuthorId = null);
 
 public sealed record BookUpdateRequest(
     Guid Id,
@@ -16,7 +17,8 @@ public sealed record BookUpdateRequest(
     [MinLength(1)] string? Author,
     Guid? CategoryId,
     [Range(0, double.MaxValue)] decimal? Price,
-    BookStatus? Status);
+    BookStatus? Status,
+    Guid? AuthorId = null);
 
 public sealed record BookResponse(
     Guid Id,
@@ -25,6 +27,7 @@ public sealed record BookResponse(
     decimal Price,
     Guid CategoryId,
     BookStatus Status,
+    Guid? AuthorId,
     DateTime CreatedAt,
     DateTime UpdatedAt);
 
@@ -50,7 +53,25 @@ public sealed record CategoryResponse(
 public sealed record BookListQuery(
     Guid? CategoryId = null,
     string? SearchTerm = null,
-    BookStatus? Status = null);
+    BookStatus? Status = null,
+    Guid? AuthorId = null);
+
+public sealed record AuthorCreateRequest(
+    [Required, MinLength(1)] string Name,
+    DateTime? BirthDate = null,
+    string? Nationality = null,
+    string? Email = null,
+    bool IsActive = true);
+
+public sealed record AuthorResponse(
+    Guid Id,
+    string Name,
+    DateTime? BirthDate,
+    string Nationality,
+    string Email,
+    bool IsActive,
+    DateTime CreatedAt,
+    DateTime UpdatedAt);
 
 public static class BookMapper
 {
@@ -62,6 +83,7 @@ public static class BookMapper
             book.Price,
             book.CategoryId,
             book.Status,
+            book.AuthorId,
             book.CreatedAt,
             book.UpdatedAt);
 
@@ -73,4 +95,15 @@ public static class BookMapper
             category.IsActive,
             category.CreatedAt,
             category.UpdatedAt);
+
+    public static AuthorResponse ToResponse(this Author author)
+        => new(
+            author.Id,
+            author.Name,
+            author.BirthDate,
+            author.Nationality,
+            author.Email,
+            author.IsActive,
+            author.CreatedAt,
+            author.UpdatedAt);
 }

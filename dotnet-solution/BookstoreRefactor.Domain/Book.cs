@@ -5,6 +5,7 @@ public sealed class Book
     public Guid Id { get; private set; }
     public string Title { get; private set; } = string.Empty;
     public string Author { get; private set; } = string.Empty;
+    public Guid? AuthorId { get; private set; }
     public decimal Price { get; private set; }
     public Guid CategoryId { get; private set; }
     public BookStatus Status { get; private set; }
@@ -15,11 +16,12 @@ public sealed class Book
     {
     }
 
-    private Book(string title, string author, Guid categoryId, decimal price, BookStatus status)
+    private Book(string title, string author, Guid categoryId, decimal price, BookStatus status, Guid? authorId = null)
     {
         Id = Guid.NewGuid();
         Title = title;
         Author = author;
+        AuthorId = authorId;
         CategoryId = categoryId;
         Price = price;
         Status = status;
@@ -28,7 +30,7 @@ public sealed class Book
         UpdatedAt = now;
     }
 
-    public static Book Create(string title, string author, Guid categoryId, decimal price, BookStatus status = BookStatus.Draft)
+    public static Book Create(string title, string author, Guid categoryId, decimal price, BookStatus status = BookStatus.Draft, Guid? authorId = null)
     {
         EnsureTitle(title);
         EnsureAuthor(author);
@@ -36,7 +38,7 @@ public sealed class Book
         EnsurePrice(price);
         EnsureStatus(status);
 
-        return new Book(title.Trim(), author.Trim(), categoryId, price, status);
+        return new Book(title.Trim(), author.Trim(), categoryId, price, status, authorId);
     }
 
     public void UpdateTitle(string title)
@@ -50,6 +52,17 @@ public sealed class Book
     {
         EnsureAuthor(author);
         Author = author.Trim();
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void UpdateAuthorId(Guid authorId)
+    {
+        if (authorId == Guid.Empty)
+        {
+            throw new DomainException("Author identifier is required.");
+        }
+
+        AuthorId = authorId;
         UpdatedAt = DateTime.UtcNow;
     }
 

@@ -13,9 +13,12 @@ public static class DependencyInjection
         ArgumentNullException.ThrowIfNull(configuration);
 
         services.Configure<MongoOptions>(configuration.GetSection(MongoOptions.SectionName));
+        services.Configure<GitHubMcpOptions>(configuration.GetSection(GitHubMcpOptions.SectionName));
         services.AddSingleton<MongoDbContext>();
         services.AddScoped<IBookRepository, BookRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IAuthorRepository, AuthorRepository>();
+        services.AddHttpClient<IGitHubIssueClient, GitHubIssueClient>();
 
         return services;
     }
@@ -34,6 +37,12 @@ public static class DependencyInjection
         [
             new CreateIndexModel<CategoryDocument>(Builders<CategoryDocument>.IndexKeys.Ascending(x => x.IsActive)),
             new CreateIndexModel<CategoryDocument>(Builders<CategoryDocument>.IndexKeys.Ascending(x => x.Name))
+        ], cancellationToken);
+
+        await context.Authors.Indexes.CreateManyAsync(
+        [
+            new CreateIndexModel<AuthorDocument>(Builders<AuthorDocument>.IndexKeys.Ascending(x => x.IsActive)),
+            new CreateIndexModel<AuthorDocument>(Builders<AuthorDocument>.IndexKeys.Ascending(x => x.Name))
         ], cancellationToken);
     }
 }

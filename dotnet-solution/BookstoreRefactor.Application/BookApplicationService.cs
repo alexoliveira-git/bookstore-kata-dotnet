@@ -6,11 +6,13 @@ public sealed class BookApplicationService
 {
     private readonly IBookRepository _bookRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IAuthorRepository? _authorRepository;
 
-    public BookApplicationService(IBookRepository bookRepository, ICategoryRepository categoryRepository)
+    public BookApplicationService(IBookRepository bookRepository, ICategoryRepository categoryRepository, IAuthorRepository? authorRepository = null)
     {
         _bookRepository = bookRepository;
         _categoryRepository = categoryRepository;
+        _authorRepository = authorRepository;
     }
 
     public async Task<BookResponse> CreateAsync(BookCreateRequest request, CancellationToken cancellationToken = default)
@@ -27,7 +29,12 @@ public sealed class BookApplicationService
 
         try
         {
-            var book = Book.Create(request.Title, request.Author, request.CategoryId, request.Price, request.Status);
+            if (request.AuthorId.HasValue && _authorRepository is not null && !await _authorRepository.ExistsAsync(request.AuthorId.Value, cancellationToken))
+            {
+                throw new NotFoundException($"Author '{request.AuthorId.Value}' was not found.");
+            }
+
+            var book = Book.Create(request.Title, request.Author, request.CategoryId, request.Price, request.Status, request.AuthorId);
             await _bookRepository.AddAsync(book, cancellationToken);
             return book.ToResponse();
         }
@@ -69,6 +76,16 @@ public sealed class BookApplicationService
                 book.UpdateAuthor(request.Author);
             }
 
+            if (request.AuthorId.HasValue)
+            {
+                if (_authorRepository is not null && !await _authorRepository.ExistsAsync(request.AuthorId.Value, cancellationToken))
+                {
+                    throw new NotFoundException($"Author '{request.AuthorId.Value}' was not found.");
+                }
+
+                book.UpdateAuthorId(request.AuthorId.Value);
+            }
+
             if (request.Price.HasValue)
             {
                 book.UpdatePrice(request.Price.Value);
@@ -102,10 +119,12 @@ public sealed class BookApplicationService
         var search = query?.SearchTerm ?? string.Empty;
         var categoryId = query?.CategoryId;
         var status = query?.Status;
+        var authorId = query?.AuthorId;
 
         var filtered = books
             .Where(book => !categoryId.HasValue || book.CategoryId == categoryId.Value)
             .Where(book => !status.HasValue || book.Status == status.Value)
+            .Where(book => !authorId.HasValue || book.AuthorId == authorId.Value)
             .Where(book => string.IsNullOrWhiteSpace(search)
                 || book.Title.Contains(search, StringComparison.OrdinalIgnoreCase)
                 || book.Author.Contains(search, StringComparison.OrdinalIgnoreCase))

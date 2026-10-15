@@ -10,6 +10,7 @@ public static class DependencyInjection
 
         services.AddScoped<BookApplicationService>();
         services.AddScoped<CategoryApplicationService>();
+        services.AddScoped<AuthorApplicationService>();
 
         return services;
     }

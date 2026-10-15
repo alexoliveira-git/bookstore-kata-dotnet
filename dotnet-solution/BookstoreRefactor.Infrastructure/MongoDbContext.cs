@@ -18,4 +18,5 @@ public sealed class MongoDbContext
 
     public IMongoCollection<BookDocument> Books => _database.GetCollection<BookDocument>(_options.BooksCollection);
     public IMongoCollection<CategoryDocument> Categories => _database.GetCollection<CategoryDocument>(_options.CategoriesCollection);
+    public IMongoCollection<AuthorDocument> Authors => _database.GetCollection<AuthorDocument>("authors");
 }

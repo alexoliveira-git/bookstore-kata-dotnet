@@ -21,9 +21,10 @@ public sealed class BooksController : ControllerBase
         [FromQuery] Guid? category,
         [FromQuery] string? search,
         [FromQuery] BookStatus? status,
+        [FromQuery] Guid? authorId,
         CancellationToken cancellationToken = default)
     {
-        var query = new BookListQuery(category, search, status);
+        var query = new BookListQuery(category, search, status, authorId);
         var books = await _bookApplicationService.ListAsync(query, cancellationToken);
         return Ok(books);
     }
