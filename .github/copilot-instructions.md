@@ -44,3 +44,13 @@ One answer path per question. If CodeGraph already answered a structural code qu
 3. **grill-with-docs** (if installed) is for alignment and ADRs/CONTEXT — not a cue to start implementing or running TDD loops.
 4. Do not “suppress” tools with ritual phase talk. Just pick the right tool for the current ask.
 5. Keep diffs small and matched to existing project conventions when this file is vendored into an app repo.
+
+## Functional documentation of the legacy application
+
+- Describe current behavior in business language.
+- Organize documentation by business capability and use case.
+- Inspect existing code and behavior to understand how the legacy application currently operates.
+- Distinguish implementation evidence from business validation.
+- Keep documentation up-to-date with any changes in the legacy application.
+- Keep implementation details accurate and aligned with the actual behavior of the legacy application.
+- Modify documentation only, do not modify application code.
