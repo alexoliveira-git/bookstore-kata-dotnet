@@ -698,6 +698,7 @@
       "outputPath": "C:\\Devoteam\\Hackthon\\group-3\\bookstore-kata-dotnet\\dotnet-solution\\BookstoreRefactor.Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
+        "C:\\Devoteam\\Hackthon\\group-3\\bookstore-kata-dotnet\\dotnet-solution\\NuGet.Config",
         "C:\\Users\\adriano.almeida.ext\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [

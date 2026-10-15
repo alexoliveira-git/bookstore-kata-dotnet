@@ -162,7 +162,7 @@
           "Microsoft.Extensions.FileSystemGlobbing.Reference": "10.0.0.0",
           "Microsoft.Extensions.Hosting.Abstractions.Reference": "10.0.0.0",
           "Microsoft.Extensions.Hosting.Reference": "10.0.0.0",
-          "Microsoft.Extensions.Http": "10.0.0.0",
+          "Microsoft.Extensions.Http.Reference": "10.0.0.0",
           "Microsoft.Extensions.Identity.Core": "10.0.0.0",
           "Microsoft.Extensions.Identity.Stores": "10.0.0.0",
           "Microsoft.Extensions.Localization.Abstractions": "10.0.0.0",
@@ -957,6 +957,7 @@
           "BookstoreRefactor.Domain": "1.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "10.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Http": "10.0.0",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.0",
           "MongoDB.Driver": "3.12.0"
         },
@@ -1660,7 +1661,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.Http/10.0.0.0": {
+      "Microsoft.Extensions.Http.Reference/10.0.0.0": {
         "compile": {
           "Microsoft.Extensions.Http.dll": {}
         },
@@ -2958,6 +2959,17 @@
         },
         "compileOnly": true
       },
+      "Microsoft.Extensions.Http/10.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Diagnostics": "10.0.0",
+          "Microsoft.Extensions.Logging": "10.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Options": "10.0.0"
+        },
+        "compileOnly": true
+      },
       "Microsoft.Extensions.Logging/10.0.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "10.0.0",
@@ -3844,7 +3856,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.Http/10.0.0.0": {
+    "Microsoft.Extensions.Http.Reference/10.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -4936,6 +4948,13 @@
       "sha512": "sha512-KrN6TGFwCwqOkLLk/idW/XtDQh+8In+CL9T4M1Dx+5ScsjTq4TlVbal8q532m82UYrMr6RiQJF2HvYCN0QwVsA==",
       "path": "microsoft.extensions.hosting.abstractions/10.0.0",
       "hashPath": "microsoft.extensions.hosting.abstractions.10.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Http/10.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-r+mSvm/Ryc/iYcc9zcUG5VP9EBB8PL1rgVU6macEaYk45vmGRk9PntM3aynFKN6s3Q4WW36kedTycIctctpTUQ==",
+      "path": "microsoft.extensions.http/10.0.0",
+      "hashPath": "microsoft.extensions.http.10.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Logging/10.0.0": {
       "type": "package",

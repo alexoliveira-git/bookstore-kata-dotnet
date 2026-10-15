@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BookstoreRefactor.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee966f6fa36ada0e87386452d46173cc7449a6d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a41fd3d0beb07a1caae62fa63c2ed483b970af05")]
 [assembly: System.Reflection.AssemblyProductAttribute("BookstoreRefactor.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BookstoreRefactor.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
