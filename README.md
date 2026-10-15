@@ -1,20 +1,28 @@
 # Bookstore
 
-Basic app using Java 11 and MongoDB.
+Bookstore inventory API with a .NET solution and a retained Java 11 legacy implementation, backed by MongoDB.
 
 It requires a bookstore database to be created in MongoDB.
 
 This API manages book inventory in a bookstore. It supports listing, retrieving, creating, and updating books.
 
+## Updated .NET Documentation
+
+Documentation version **1.1**, dated **2026-10-15**, covers authors as first-class entities: creation, soft deletion, listing, lookup, and book filtering by author.
+
+See [Author management in .NET](docs/dotnet-author-management.md) for the schema, endpoint reference, relationships, examples, and migration considerations.
+
+This version follows the requested scenario in which the feature is already implemented. It is not evidence that the author endpoints exist in the checked-in code or have been tested.
+
 ## API Specification
 
-The OpenAPI 3.0 specification for the endpoints currently implemented by the service is available at [docs/openapi.yaml](docs/openapi.yaml).
+The OpenAPI 3.0 specification for the **legacy Java service** is available at [docs/openapi.yaml](docs/openapi.yaml). It does not describe the .NET author-management feature.
 
 The API base path is `/api`. The specification documents current behavior, including response statuses and known limitations; it does not imply that unimplemented operations such as deleting a book are available.
 
 ## Technical Documentation
 
-See [docs/technical-documentation.md](docs/technical-documentation.md) for the architecture, project structure, MongoDB integration, runtime behavior, and build/test instructions.
+See [docs/technical-documentation.md](docs/technical-documentation.md) for the legacy architecture, MongoDB integration, runtime behavior, and build/test instructions. The [.NET documentation](docs/dotnet-author-management.md) describes the author-management evolution.
 
 ## Optional: Use docker compose to run the application
 

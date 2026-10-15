@@ -1,5 +1,9 @@
 # Functional Inventory
 
+This inventory is a historical record of the **Java legacy implementation**.
+For the assumed .NET author-management evolution, see
+[documentation version 1.1](./dotnet-author-management.md).
+
 This inventory describes behavior evidenced by the repository's application and configuration files. It does not claim validation against a running deployment.
 
 ## Book Inventory and Catalogue

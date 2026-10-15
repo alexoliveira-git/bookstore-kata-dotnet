@@ -1,5 +1,12 @@
 # Technical documentation
 
+## Documentation scope
+
+This document records the **Java legacy implementation**. Its limitations,
+including the unsupported author filter, do not describe the assumed .NET
+author-management evolution. See [Author management in .NET](./dotnet-author-management.md)
+for documentation version 1.1 (2026-10-15).
+
 ## System overview
 
 Bookstore is a Java 11 HTTP API backed by MongoDB. Jersey provides the JAX-RS

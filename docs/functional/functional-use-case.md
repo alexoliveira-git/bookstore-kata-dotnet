@@ -1,5 +1,9 @@
 # Use Case: Create a Book
 
+This use case describes the **Java legacy implementation**, where `author` is
+a string. The assumed .NET evolution uses an author relationship; see
+[Author management in .NET](../dotnet-author-management.md).
+
 ## Document Information
 
 - **Business capability:** Book inventory and catalogue.
