@@ -1,0 +1,315 @@
+openapi: 3.0.3
+info:
+  title: Bookstore API
+  version: 0.1.0
+  description: |
+    API for listing, creating, and updating bookstore inventory.
+
+    This specification describes the behavior currently implemented by the
+    service. There is no authentication or application-defined error response
+    format. Endpoints not present here, including book deletion, are not
+    implemented.
+servers:
+  - url: http://localhost:8080/api
+    description: Local API
+tags:
+  - name: Books
+    description: Book inventory operations
+paths:
+  /books/health:
+    get:
+      tags:
+        - Books
+      operationId: checkBookstoreHealth
+      summary: Check API health
+      description: Returns an empty response when the API process is reachable.
+      responses:
+        '200':
+          description: The API is responding.
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /books:
+    get:
+      tags:
+        - Books
+      operationId: listBooks
+      summary: List books
+      description: |
+        Returns all books. When `category` exactly matches a known category
+        name, the result is filtered to that category. An unknown category
+        value is ignored and the endpoint returns all books.
+      parameters:
+        - name: category
+          in: query
+          required: false
+          description: |
+            Optional exact category name: Fiction, Non-Fiction, Science,
+            Biography, Children, or Programming.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The matching books.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Books
+      operationId: createBook
+      summary: Create a book
+      description: |
+        Creates a book and returns it with HTTP 201. A non-null `title` is
+        required by the current implementation for creation to proceed, but
+        this is not enforced by request validation. If `title` is null or
+        omitted, the endpoint returns an empty 404 response. The request's
+        `categoryId` is a category name, while the returned book's
+        `categoryId` is a numeric category identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookRequest'
+      responses:
+        '201':
+          description: The book was created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: The request did not contain a non-null title.
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '500':
+          description: |
+            An unexpected error occurred, such as a database failure or an
+            unrecognized category name. No stable error response body is
+            defined by the application.
+
+    put:
+      tags:
+        - Books
+      operationId: updateBook
+      summary: Update book inventory fields
+      description: |
+        Updates the quantity and active state for the book identified by the
+        request's `id`. A missing or null `id` returns an empty 404 response.
+        The implementation responds with HTTP 201 even when the supplied ID
+        does not identify an existing MongoDB document. The response is built
+        from the update request and is not a fetched representation of the
+        stored book.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBookRequest'
+      responses:
+        '201':
+          description: The update operation was processed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: The request did not contain a non-null book ID.
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '500':
+          description: |
+            An unexpected error occurred, such as an invalid MongoDB object ID
+            or a database failure. No stable error response body is defined
+            by the application.
+
+  /books/single:
+    get:
+      tags:
+        - Books
+      operationId: getBook
+      summary: Get one book by ID or title
+      description: |
+        Searches by exact title when `name` is supplied, and then searches by
+        ID when `id` is supplied. If both are supplied and both match, the
+        ID match takes precedence; if only the title matches, that title match
+        is retained. If no match is found, the response has HTTP 200 and may
+        have an empty body. The current ID comparison uses Java reference
+        equality, so ID lookups may fail even when the ID exists. Supplying
+        `author` currently throws an unhandled runtime exception and results
+        in HTTP 500; author filtering is not implemented.
+      parameters:
+        - name: id
+          in: query
+          required: false
+          description: Book identifier as returned in the `id` property.
+          schema:
+            type: string
+        - name: name
+          in: query
+          required: false
+          description: Exact book title to search for.
+          schema:
+            type: string
+        - name: author
+          in: query
+          required: false
+          description: Not implemented; supplying this parameter results in HTTP 500.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: |
+            The matching book, or an empty response body when no book is
+            found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '500':
+          description: |
+            An unexpected error occurred, including use of the unimplemented
+            `author` filter or a database failure. No stable error response
+            body is defined by the application.
+
+components:
+  schemas:
+    Book:
+      type: object
+      description: Book representation returned by the API.
+      properties:
+        id:
+          type: string
+          description: MongoDB object identifier as a hexadecimal string.
+          example: 507f1f77bcf86cd799439011
+        title:
+          type: string
+          nullable: true
+        author:
+          type: string
+          nullable: true
+        categoryId:
+          type: integer
+          format: int32
+          description: Numeric ID of the book category.
+          example: 6
+        quantity:
+          type: integer
+          format: int32
+        description:
+          type: string
+          nullable: true
+        language:
+          type: string
+          nullable: true
+        active:
+          type: boolean
+        inactiveDate:
+          type: string
+          format: date-time
+          nullable: true
+        publisher:
+          type: string
+          nullable: true
+        publisherDate:
+          type: string
+          format: date-time
+          nullable: true
+
+    CreateBookRequest:
+      type: object
+      description: |
+        Fields accepted by POST /books. All properties are optional in the
+        current DTO; a non-null title is needed for the controller to create
+        the book. Omitting quantity uses 0 and omitting active uses true.
+      properties:
+        title:
+          type: string
+          nullable: true
+        author:
+          type: string
+          nullable: true
+        categoryId:
+          type: string
+          nullable: true
+          description: |
+            Category name, despite the property name. Accepted names are
+            Fiction, Non-Fiction, Science, Biography, Children, and
+            Programming.
+          example: Programming
+        quantity:
+          type: integer
+          format: int32
+          default: 0
+        description:
+          type: string
+          nullable: true
+        language:
+          type: string
+          nullable: true
+        active:
+          type: boolean
+          default: true
+        inactiveDate:
+          type: string
+          format: date-time
+          nullable: true
+        publisher:
+          type: string
+          nullable: true
+        publisherDate:
+          type: string
+          format: date-time
+          nullable: true
+
+    UpdateBookRequest:
+      type: object
+      description: |
+        Fields accepted by PUT /books. A non-null `id` is needed for the
+        controller to process the update. Omitting quantity uses 0 and
+        omitting active uses false.
+      properties:
+        id:
+          type: string
+          nullable: true
+          description: MongoDB object identifier as a hexadecimal string.
+          example: 507f1f77bcf86cd799439011
+        quantity:
+          type: integer
+          format: int32
+          default: 0
+        active:
+          type: boolean
+          default: false
+
+  responses:
+    BadRequest:
+      description: The request body could not be read as the expected JSON DTO.
+    NotAcceptable:
+      description: The requested response media type is not supported.
+    UnsupportedMediaType:
+      description: The request Content-Type is not application/json.
+    InternalServerError:
+      description: |
+        An unexpected error occurred. No stable error response body is defined
+        by the application.

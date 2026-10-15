@@ -4,8 +4,13 @@ Basic app using Java 11 and MongoDB.
 
 It requires a bookstore database to be created in MongoDB.
 
-This API manages book inventory in a bookstore. 
-List books, create new ones, update, and delete are some of the supported operations.
+This API manages book inventory in a bookstore. It supports listing, retrieving, creating, and updating books.
+
+## API Specification
+
+The OpenAPI 3.0 specification for the endpoints currently implemented by the service is available at [docs/openapi.yaml](docs/openapi.yaml).
+
+The API base path is `/api`. The specification documents current behavior, including response statuses and known limitations; it does not imply that unimplemented operations such as deleting a book are available.
 
 ## Optional: Use docker compose to run the application
 
