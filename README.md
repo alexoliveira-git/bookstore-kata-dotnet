@@ -12,6 +12,10 @@ The OpenAPI 3.0 specification for the endpoints currently implemented by the ser
 
 The API base path is `/api`. The specification documents current behavior, including response statuses and known limitations; it does not imply that unimplemented operations such as deleting a book are available.
 
+## Technical Documentation
+
+See [docs/technical-documentation.md](docs/technical-documentation.md) for the architecture, project structure, MongoDB integration, runtime behavior, and build/test instructions.
+
 ## Optional: Use docker compose to run the application
 
 ```bash
